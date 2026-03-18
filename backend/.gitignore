@@ -78,4 +78,4 @@ logs/
 *.log
 
 ### Environment Varaibles ###
-.env
+application-dev.properties
