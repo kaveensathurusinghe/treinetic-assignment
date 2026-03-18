@@ -76,3 +76,6 @@ application-prod.properties
 ### Logs ###
 logs/
 *.log
+
+### Environment Varaibles ###
+.env
