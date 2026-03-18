@@ -69,3 +69,8 @@
   text-align: center;
   padding: 3rem;
 }
+
+.container-fluid {
+  max-width: 1200px;
+  margin: 0 auto;
+}

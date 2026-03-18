@@ -58,7 +58,7 @@ mat-card-title {
 }
 
 .section h3 mat-icon {
-  color: #667eea;
+  color: var(--mat-sys-primary);
 }
 
 .description-text {

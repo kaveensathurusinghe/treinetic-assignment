@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 64px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--mat-sys-primary-container) 0%, var(--mat-sys-surface) 100%);
   padding: 20px;
 }
 
@@ -42,10 +42,17 @@ mat-form-field {
 
 mat-card-actions {
   padding: 16px 16px 24px !important;
+  justify-content: center !important;
+}
+
+mat-card-actions p {
+  margin: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .register-link {
-  color: #667eea;
+  color: var(--mat-sys-primary);
   text-decoration: none;
   font-weight: 500;
   margin-left: 4px;
