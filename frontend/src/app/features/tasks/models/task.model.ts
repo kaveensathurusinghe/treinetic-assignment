@@ -6,6 +6,8 @@ export interface Task {
   createdAt?: Date;
   updatedAt?: Date;
   dueDate?: Date;
+  userId?: number;
+  username?: string;
 }
 
 export enum TaskStatus {

@@ -1,0 +1,111 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>person_add</mat-icon>
+        Create Account
+      </mat-card-title>
+      <mat-card-subtitle>Join Task Manager to organize your tasks</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Choose a username">
+          <mat-icon matPrefix>person</mat-icon>
+          <mat-hint align="end">{{ username?.value?.length || 0 }}/20</mat-hint>
+          <mat-error *ngIf="username?.invalid && username?.touched">
+            {{ getUsernameErrorMessage() }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="Enter your email">
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="email?.invalid && email?.touched">
+            {{ getEmailErrorMessage() }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Full Name Field (Optional) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name (Optional)</mat-label>
+          <input matInput formControlName="fullName" placeholder="Enter your full name">
+          <mat-icon matPrefix>badge</mat-icon>
+          <mat-hint align="end">{{ fullName?.value?.length || 0 }}/50</mat-hint>
+        </mat-form-field>
+
+        <!-- Password Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="password" placeholder="Create a password">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-hint>At least 6 characters with letters and numbers</mat-hint>
+          <mat-error *ngIf="password?.invalid && password?.touched">
+            {{ getPasswordErrorMessage() }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Confirm Password Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'"
+                 formControlName="confirmPassword" placeholder="Confirm your password">
+          <mat-icon matPrefix>lock_clock</mat-icon>
+          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="confirmPassword?.touched">
+            {{ getConfirmPasswordErrorMessage() }}
+          </mat-error>
+          <mat-error *ngIf="registerForm.hasError('passwordMismatch') && confirmPassword?.touched">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Submit Button -->
+        <button type="submit" mat-raised-button color="primary" class="full-width"
+                [disabled]="registerForm.invalid || loading">
+          <mat-icon *ngIf="!loading">how_to_reg</mat-icon>
+          <mat-spinner *ngIf="loading" diameter="20" class="me-2"></mat-spinner>
+          {{ loading ? 'Creating Account...' : 'Register' }}
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end" class="text-center">
+      <p>Already have an account?
+        <a routerLink="/login" class="login-link">Sign in here</a>
+      </p>
+    </mat-card-actions>
+
+    <!-- Password Requirements -->
+    <mat-card-footer *ngIf="password?.touched && password?.invalid">
+      <div class="password-requirements">
+        <p class="requirements-title">Password must contain:</p>
+        <ul>
+          <li [class.valid]="password?.value?.length >= 6">
+            <mat-icon>{{ password?.value?.length >= 6 ? 'check_circle' : 'cancel' }}</mat-icon>
+            At least 6 characters
+          </li>
+          <li [class.valid]="password?.value && /[A-Za-z]/.test(password?.value)">
+            <mat-icon>{{ password?.value && /[A-Za-z]/.test(password?.value) ? 'check_circle' : 'cancel' }}</mat-icon>
+            At least one letter
+          </li>
+          <li [class.valid]="password?.value && /\\d/.test(password?.value)">
+            <mat-icon>{{ password?.value && /\d/.test(password?.value) ? 'check_circle' : 'cancel' }}</mat-icon>
+            At least one number
+          </li>
+        </ul>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

@@ -30,4 +30,5 @@ public class TaskDTO {
     private TaskStatus status;
 
     private LocalDateTime dueDate;
+    private Long userId;
 }

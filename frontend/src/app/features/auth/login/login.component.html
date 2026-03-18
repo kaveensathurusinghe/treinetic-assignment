@@ -1,0 +1,56 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>login</mat-icon>
+        Welcome Back
+      </mat-card-title>
+      <mat-card-subtitle>Sign in to continue to Task Manager</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Enter your username">
+          <mat-icon matPrefix>person</mat-icon>
+          <mat-error *ngIf="username?.hasError('required')">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="username?.hasError('minlength')">
+            Minimum 3 characters required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="password" placeholder="Enter your password">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('minlength')">
+            Minimum 6 characters required
+          </mat-error>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" class="full-width"
+                [disabled]="loginForm.invalid || loading">
+          <mat-icon *ngIf="!loading">login</mat-icon>
+          <mat-spinner *ngIf="loading" diameter="20" class="me-2"></mat-spinner>
+          {{ loading ? 'Signing in...' : 'Sign In' }}
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <p>Don't have an account?
+        <a routerLink="/register" class="register-link">Register here</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>

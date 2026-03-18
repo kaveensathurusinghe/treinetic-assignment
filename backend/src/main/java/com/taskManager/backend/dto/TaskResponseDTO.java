@@ -20,4 +20,6 @@ public class TaskResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime dueDate;
+    private Long userId;
+    private String username;
 }
