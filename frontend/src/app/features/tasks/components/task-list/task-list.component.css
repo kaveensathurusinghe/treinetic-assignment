@@ -1,0 +1,71 @@
+.task-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+  border-radius: 12px !important;
+  border: none !important;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+}
+
+.task-card.TODO {
+  border-left: 4px solid #6c757d !important;
+}
+
+.task-card.IN_PROGRESS {
+  border-left: 4px solid #0d6efd !important;
+}
+
+.task-card.DONE {
+  border-left: 4px solid #198754 !important;
+  opacity: 0.8;
+}
+
+.task-card.DONE .card-title {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.stat-card {
+  border-radius: 10px;
+  border: none;
+  padding: 1rem;
+  transition: transform 0.2s;
+  cursor: default;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-chip {
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 20px !important;
+}
+
+.filter-chip.active {
+  background-color: #0d6efd !important;
+  color: white !important;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}

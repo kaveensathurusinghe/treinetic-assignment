@@ -1,0 +1,154 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+      <mat-icon class="me-2" style="vertical-align: middle;">assignment</mat-icon>
+      Task Dashboard
+    </h1>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/tasks/new']"
+      class="px-4">
+      <mat-icon>add</mat-icon>
+      New Task
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+      <mat-card class="stat-card bg-light">
+        <mat-card-content>
+          <div class="stat-value">{{ totalTasks }}</div>
+          <div class="stat-label">Total Tasks</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3 col-6">
+      <mat-card class="stat-card" style="background-color: #f0f7ff;">
+        <mat-card-content>
+          <div class="stat-value">{{ todoCount }}</div>
+          <div class="stat-label">To Do</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3 col-6">
+      <mat-card class="stat-card" style="background-color: #fff3e0;">
+        <mat-card-content>
+          <div class="stat-value">{{ inProgressCount }}</div>
+          <div class="stat-label">In Progress</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3 col-6">
+      <mat-card class="stat-card" style="background-color: #f1f9f0;">
+        <mat-card-content>
+          <div class="stat-value">{{ doneCount }}</div>
+          <div class="stat-label">Done</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <span class="text-muted me-2">Filter by status:</span>
+        <button
+          mat-stroked-button
+          [color]="selectedStatus === '' ? 'primary' : ''"
+          (click)="onStatusFilter('')"
+          class="filter-chip">
+          All
+        </button>
+        <button
+          *ngFor="let status of statuses"
+          mat-stroked-button
+          [color]="selectedStatus === status.value ? 'primary' : ''"
+          (click)="onStatusFilter(status.value)"
+          class="filter-chip"
+          [style.borderLeft]="'4px solid ' + status.color">
+          {{ status.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="loading" [message]="'Loading tasks...'"></app-loading-spinner>
+
+  <!-- Tasks Grid -->
+  <div *ngIf="!loading && tasks.length > 0" class="row g-4">
+    <div *ngFor="let task of tasks" class="col-xl-3 col-lg-4 col-md-6">
+      <mat-card
+        class="task-card h-100"
+        [ngClass]="task.status"
+        (click)="viewTask(task)">
+
+        <mat-card-header class="pb-2">
+          <mat-card-title class="h5 mb-0">{{ task.title }}</mat-card-title>
+          <mat-card-subtitle class="mt-2">
+            <span class="badge" [style.backgroundColor]="getStatusColor(task.status) + '20'"
+                  [style.color]="getStatusColor(task.status)" style="padding: 6px 12px;">
+              <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle;"
+                        class="me-1">{{ getStatusIcon(task.status) }}</mat-icon>
+              {{ getStatusLabel(task.status) }}
+            </span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="text-muted small mb-3">
+            {{ task.description || 'No description provided' | slice:0:100 }}{{ task.description && task.description.length > 100 ? '...' : '' }}
+          </p>
+
+          <div class="d-flex align-items-center small" [ngClass]="getDueDateStatus(task).class">
+            <mat-icon style="font-size: 16px; width: 16px; height: 16px;" class="me-1">event</mat-icon>
+            {{ getDueDateStatus(task).text }}
+          </div>
+
+          <div class="text-muted small mt-2">
+            <mat-icon style="font-size: 14px; width: 14px; height: 14px;" class="me-1">schedule</mat-icon>
+            Created: {{ task.createdAt | date:'mediumDate' }}
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions align="end" class="p-3 pt-0">
+          <button mat-button color="primary" (click)="editTask($event, task)">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button mat-button color="warn" (click)="deleteTask($event, task)">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && tasks.length === 0" class="empty-state">
+    <mat-icon style="font-size: 4rem; width: 4rem; height: 4rem;">inbox</mat-icon>
+    <h3 class="h5 mt-3">No tasks found</h3>
+    <p class="text-muted mb-3">
+      {{ selectedStatus ? 'No tasks with status: ' + getStatusLabel(selectedStatus) : 'Get started by creating your first task!' }}
+    </p>
+    <button
+      *ngIf="selectedStatus"
+      mat-stroked-button
+      (click)="clearFilter()"
+      class="me-2">
+      Clear Filter
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/tasks/new']">
+      <mat-icon>add</mat-icon>
+      Create New Task
+    </button>
+  </div>
+</div>
