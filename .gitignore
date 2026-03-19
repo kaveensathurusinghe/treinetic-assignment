@@ -1,1 +1,9 @@
 .env
+
+# macOS
+.DS_Store
+
+# IDE & editor
+.idea/
+.vscode/
+*.iml
