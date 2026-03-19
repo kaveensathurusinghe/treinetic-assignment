@@ -190,6 +190,7 @@ All protected endpoints expect an `Authorization: Bearer <token>` header with th
 ### 8. How to Evaluate
 
 - Clone the repository.
+- Setup the local variables(look at the example.env).
 - Run:
 
 	```bash
