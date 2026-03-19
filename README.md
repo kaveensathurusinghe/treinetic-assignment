@@ -57,7 +57,24 @@ This repository contains a full‑stack Task Manager application implemented as 
 - Docker and Docker Compose installed.
 - Ports **80**, **8080**, and **3307** are free on your machine.
 
-**Single command startup**
+**1) Configure environment variables**
+
+From the project root, create your own `.env` file:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and set **secure values** for:
+
+- `MYSQL_ROOT_PASSWORD`
+- `MYSQL_USER`
+- `MYSQL_PASSWORD`
+- `JWT_SECRET`
+
+> Note: The real secrets are **not** committed to the repo; each developer sets their own values locally.
+
+**2) Single command startup**
 
 From the project root:
 

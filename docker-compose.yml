@@ -5,10 +5,10 @@ services:
     container_name: taskmanager-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword123}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: taskdb
-      MYSQL_USER: ${MYSQL_USER:-taskuser}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-taskpassword123}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
@@ -28,9 +28,9 @@ services:
       DB_HOST: mysql
       DB_PORT: 3306
       DB_NAME: taskdb
-      DB_USERNAME: ${MYSQL_USER:-taskuser}
-      DB_PASSWORD: ${MYSQL_PASSWORD:-taskpassword123}
-      JWT_SECRET: ${JWT_SECRET:-mySecretKeyForJWTTokenGenerationAndValidation2024}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: 86400000
     ports:
       - "8080:8080"
