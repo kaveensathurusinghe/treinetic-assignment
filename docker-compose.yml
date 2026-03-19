@@ -1,0 +1,58 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: taskmanager-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword123}
+      MYSQL_DATABASE: taskdb
+      MYSQL_USER: ${MYSQL_USER:-taskuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-taskpassword123}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - taskmanager-network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: taskmanager-backend
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: taskdb
+      DB_USERNAME: ${MYSQL_USER:-taskuser}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-taskpassword123}
+      JWT_SECRET: ${JWT_SECRET:-mySecretKeyForJWTTokenGenerationAndValidation2024}
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    networks:
+      - taskmanager-network
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: taskmanager-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - taskmanager-network
+
+networks:
+  taskmanager-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

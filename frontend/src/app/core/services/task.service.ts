@@ -3,12 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, catchError, tap, finalize } from 'rxjs/operators';
 import { Task, TaskStatus, TaskStats } from '../../features/tasks/models/task.model';
+import { environment } from '../../../environments/environment.docker';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:8080/api/tasks';
+  private apiUrl = `${environment.apiUrl}/tasks`;
 
   // State management using BehaviorSubject
   private tasksSubject = new BehaviorSubject<Task[]>([]);
