@@ -101,6 +101,48 @@ docker compose down
 
 The MySQL data is persisted in the `mysql-data` Docker volume so container restarts do not wipe the database.
 
+#### Troubleshooting: MySQL `Access denied for user 'taskuser'` in Docker
+
+If the backend container exits with an error like:
+
+```text
+Access denied for user 'taskuser'@'172.18.0.x' (using password: YES)
+```
+
+it means the credentials in your `.env` file do not match the credentials MySQL was initialized with in the `mysql-data` Docker volume.
+
+Fix:
+
+1. Ensure your `.env` (in the project root) has consistent values, for example:
+
+	```env
+	MYSQL_ROOT_PASSWORD=SomeStrongRootPass
+	MYSQL_USER=taskuser
+	MYSQL_PASSWORD=SomeStrongUserPass
+	JWT_SECRET=SomeLongRandomSecret
+	```
+
+2. Stop the stack:
+
+	```bash
+	docker compose down
+	```
+
+3. Remove the existing MySQL data volume so MySQL can re‑initialize with the new credentials (volume name may vary):
+
+	```bash
+	docker volume ls
+	docker volume rm <your_mysql_data_volume_name>
+	```
+
+4. Start everything again:
+
+	```bash
+	docker compose up --build
+	```
+
+After this, the backend should be able to connect to MySQL without the access‑denied error.
+
 ---
 
 ### 4. Running Locally Without Docker (Optional)
