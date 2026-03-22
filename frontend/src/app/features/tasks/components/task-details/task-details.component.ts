@@ -101,14 +101,14 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
 
     this.taskService.getTask(this.taskId).subscribe({
       next: (task) => {
-        console.log('✅ Task loaded:', task);
+        console.log('Task loaded:', task);
         this.task = task;
         this.error = false;
         this.loading = false;
         this.cdr.markForCheck();
       },
       error: (error) => {
-        console.error('❌ Error loading task:', error);
+        console.error('Error loading task:', error);
         this.error = true;
         this.loading = false;
         this.showError('Failed to load task details');
@@ -152,12 +152,12 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
 
           this.taskService.deleteTask(this.task.id).subscribe({
             next: () => {
-              console.log('✅ Task deleted successfully');
+              console.log('Task deleted successfully');
               this.showSuccess('Task deleted successfully');
               this.router.navigate(['/tasks']);
             },
             error: (error) => {
-              console.error('❌ Error deleting task:', error);
+              console.error('Error deleting task:', error);
               this.loading = false;
               this.showError('Failed to delete task');
               this.cdr.markForCheck();
@@ -232,7 +232,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log(`🔴 TaskDetailsComponent destroyed for ID: ${this.taskId}`);
+    console.log(`TaskDetailsComponent destroyed for ID: ${this.taskId}`);
     this.destroy$.next();
     this.destroy$.complete();
   }
